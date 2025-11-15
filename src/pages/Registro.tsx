@@ -40,11 +40,12 @@ export default function Registro() {
     }
 
     try {
+      const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`,
+          emailRedirectTo: `${siteUrl}/dashboard`,
           data: {
             nombre: nombre,
           },

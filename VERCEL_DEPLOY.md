@@ -47,9 +47,36 @@ Vercel detectará automáticamente que es un proyecto Vite. Verifica que la conf
 ```
 VITE_SUPABASE_URL=https://dsvnmhgotthyzlpytxcy.supabase.co
 VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzdm5taGdvdHRoeXpscHl0eGN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwNjE0MzEsImV4cCI6MjA3ODYzNzQzMX0.YcEe2KHTF4XW3riWW7kD-RqQQ4L5KhWqBV8P-PiBhR4
+VITE_SITE_URL=https://tu-proyecto.vercel.app
 ```
 
+**IMPORTANTE**: Reemplaza `https://tu-proyecto.vercel.app` con tu URL real de Vercel
+
 3. Asegúrate de que estas variables estén disponibles para todos los ambientes (Production, Preview, Development)
+
+### 4.5. Configurar URLs en Supabase (CRÍTICO para autenticación)
+
+**DEBE hacerse ANTES del primer deploy**, de lo contrario los emails de confirmación no funcionarán:
+
+1. Ve a tu proyecto en Supabase Dashboard
+2. Ve a `Authentication` → `URL Configuration`
+3. Configura lo siguiente:
+
+   - **Site URL**: `https://tu-proyecto.vercel.app` (reemplaza con tu URL de Vercel)
+   - **Redirect URLs**: Agrega las siguientes URLs (una por línea):
+     ```
+     https://tu-proyecto.vercel.app/**
+     https://tu-proyecto.vercel.app/dashboard
+     http://localhost:3000/**
+     http://localhost:3000/dashboard
+     ```
+
+4. Guarda los cambios
+
+**Nota**: Si ya desplegaste y los emails de confirmación apuntan a localhost, necesitarás:
+   - Configurar estas URLs en Supabase
+   - Hacer redeploy en Vercel después de agregar `VITE_SITE_URL`
+   - Los usuarios que ya se registraron deberán registrarse de nuevo (o confirmarlos manualmente desde Supabase)
 
 ### 5. Deploy
 
