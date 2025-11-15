@@ -127,7 +127,7 @@ export default function VistaEncuesta() {
             </CardHeader>
             <CardContent>
               <SurveyResponseForm
-                surveyId={survey.id}
+                survey={survey}
                 questions={questions}
               />
             </CardContent>
