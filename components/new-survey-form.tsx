@@ -1,6 +1,8 @@
+"use client";
+
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,7 +23,7 @@ type Question = {
 };
 
 export function NewSurveyForm({ userId }: { userId: string }) {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
@@ -106,7 +108,7 @@ export function NewSurveyForm({ userId }: { userId: string }) {
 
       if (questionsError) throw questionsError;
 
-      navigate("/dashboard");
+      router.push("/dashboard");
     } catch (err) {
       console.error("[v0] Error creating survey:", err);
       setError(err instanceof Error ? err.message : "Error al crear la encuesta");
@@ -267,7 +269,7 @@ export function NewSurveyForm({ userId }: { userId: string }) {
           {isLoading ? "Creando..." : "Crear Encuesta"}
         </Button>
         <Button type="button" variant="outline" size="lg" asChild>
-          <Link to="/dashboard">Cancelar</Link>
+          <Link href="/dashboard">Cancelar</Link>
         </Button>
       </div>
     </form>

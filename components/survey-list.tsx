@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Eye, BarChart3, Settings } from 'lucide-react';
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
@@ -23,7 +23,7 @@ export function SurveyList({ surveys }: { surveys: Survey[] }) {
             No tienes encuestas todavía
           </p>
           <Button asChild>
-            <Link to="/dashboard/encuestas/nueva">Crear tu primera encuesta</Link>
+            <Link href="/dashboard/encuestas/nueva">Crear tu primera encuesta</Link>
           </Button>
         </CardContent>
       </Card>
@@ -56,19 +56,19 @@ export function SurveyList({ surveys }: { surveys: Survey[] }) {
           </CardContent>
           <CardFooter className="flex gap-2">
             <Button asChild variant="outline" size="sm">
-              <Link to={`/dashboard/encuestas/${survey.id}`}>
+              <Link href={`/dashboard/encuestas/${survey.id}`}>
                 <Settings className="h-4 w-4 mr-1" />
                 Editar
               </Link>
             </Button>
             <Button asChild variant="outline" size="sm">
-              <Link to={`/dashboard/encuestas/${survey.id}/resultados`}>
+              <Link href={`/dashboard/encuestas/${survey.id}/resultados`}>
                 <BarChart3 className="h-4 w-4 mr-1" />
                 Ver
               </Link>
             </Button>
             <Button asChild variant="outline" size="sm">
-              <Link to={`/encuesta/${survey.id}`} target="_blank">
+              <Link href={`/encuesta/${survey.id}`} target="_blank">
                 <Eye className="h-4 w-4 mr-1" />
                 Vista
               </Link>
