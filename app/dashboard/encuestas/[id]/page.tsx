@@ -11,6 +11,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { notFound } from 'next/navigation';
 
+// Enable dynamic params for this route
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+
 export default async function SurveyDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createClient();

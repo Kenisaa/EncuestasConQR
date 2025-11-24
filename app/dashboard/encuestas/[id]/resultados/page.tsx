@@ -8,6 +8,10 @@ import { notFound } from 'next/navigation';
 import { ResultsCharts } from "@/components/results-charts";
 import { ExportButton } from "@/components/export-button";
 
+// Enable dynamic params for this route
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+
 export default async function ResultsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createClient();

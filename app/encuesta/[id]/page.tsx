@@ -3,6 +3,10 @@ import { notFound } from 'next/navigation';
 import { SurveyResponseForm } from "@/components/survey-response-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+// Enable dynamic params for this route
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+
 export default async function PublicSurveyPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createClient();
