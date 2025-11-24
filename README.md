@@ -1,161 +1,248 @@
 # Sistema de Encuestas QR
 
-Sistema de encuestas con códigos QR construido con **React + Vite** y Supabase.
+Sistema de encuestas con códigos QR construido con **Next.js 15** (App Router) y Supabase.
 
-## Cambios Realizados
+## Características
 
-Este proyecto fue migrado de **Next.js** a **React puro con Vite**. Los cambios incluyen:
+- ✅ Autenticación de usuarios (registro/login con Supabase Auth)
+- ✅ Creación de encuestas personalizadas
+- ✅ Generación de códigos QR únicos por encuesta
+- ✅ Múltiples tipos de preguntas (texto, opción múltiple, calificación, sí/no)
+- ✅ Visualización de resultados con gráficos interactivos
+- ✅ Exportación de datos a CSV
+- ✅ Diseño responsive con Tailwind CSS
+- ✅ Componentes UI con shadcn/ui y Radix UI
+- ✅ Row Level Security (RLS) en Supabase
 
-### 1. Archivos Eliminados
-- ✅ Archivos `._*` de macOS (metadatos innecesarios)
-- ✅ Configuración y dependencias de Next.js
-- ✅ Archivos de servidor Next.js (`lib/supabase/server.ts`, `lib/supabase/middleware.ts`, `proxy.ts`)
+## Tecnologías
 
-### 2. Nueva Estructura
+- **Next.js 15** - Framework React con App Router
+- **React 18** - Biblioteca UI
+- **TypeScript** - Tipado estático
+- **Tailwind CSS 3** - Estilos utility-first
+- **Supabase** - Base de datos PostgreSQL y autenticación
+- **shadcn/ui** - Componentes UI
+- **Recharts** - Gráficos y visualizaciones
+- **QRCode** - Generación de códigos QR
+
+## Estructura del Proyecto
+
 ```
 EncuestasQR/
-├── src/
-│   ├── main.tsx          # Punto de entrada de React
-│   ├── App.tsx           # Componente principal con rutas
-│   ├── index.css         # Estilos globales (Tailwind)
-│   └── pages/            # Páginas de la aplicación
-│       ├── Home.tsx
-│       ├── Login.tsx
-│       ├── Registro.tsx
-│       ├── RegistroExito.tsx
-│       └── Dashboard.tsx
-├── components/           # Componentes reutilizables
-├── lib/                  # Utilidades y clientes
-├── hooks/                # Hooks personalizados
-├── public/               # Archivos estáticos
-└── index.html            # HTML principal
+├── app/                      # App Router de Next.js
+│   ├── api/                  # API Routes
+│   │   └── auth/logout/      # Endpoint de logout
+│   ├── dashboard/            # Dashboard protegido
+│   │   ├── page.tsx          # Lista de encuestas
+│   │   └── encuestas/
+│   │       ├── nueva/        # Crear encuesta
+│   │       └── [id]/         # Detalle y resultados
+│   ├── encuesta/[id]/        # Vista pública de encuesta
+│   ├── login/                # Página de login
+│   ├── registro/             # Página de registro
+│   └── layout.tsx            # Layout principal
+├── components/               # Componentes React
+│   ├── ui/                   # Componentes UI (shadcn)
+│   ├── new-survey-form.tsx   # Formulario de nueva encuesta
+│   ├── survey-list.tsx       # Lista de encuestas
+│   ├── qr-code-display.tsx   # Mostrar QR
+│   └── results-charts.tsx    # Gráficos de resultados
+├── lib/                      # Utilidades
+│   ├── supabase/
+│   │   ├── client.ts         # Cliente Supabase (browser)
+│   │   └── server.ts         # Cliente Supabase (server)
+│   └── utils.ts              # Utilidades generales
+├── scripts/                  # Scripts SQL
+│   └── 001_create_tables.sql # Schema de la base de datos
+└── public/                   # Archivos estáticos
 ```
 
-### 3. Tecnologías Actualizadas
-- **React 18** (en lugar de React 19 de Next.js)
-- **Vite 5** (bundler rápido)
-- **React Router 6** (navegación)
-- **Tailwind CSS 3** (estilos)
-- **Supabase** (base de datos y autenticación)
+## Requisitos Previos
 
-## Instalación y Uso
+- Node.js 18 o superior
+- npm, yarn o pnpm
+- Cuenta en [Supabase](https://supabase.com)
 
-### Requisitos Previos
-- Node.js 18+
-- npm o pnpm
+## Instalación
 
-### Instalar Dependencias
+### 1. Clonar el repositorio
+
+```bash
+git clone <url-del-repositorio>
+cd EncuestasQR
+```
+
+### 2. Instalar dependencias
+
 ```bash
 npm install
 ```
 
-### Ejecutar en Desarrollo
+### 3. Configurar Supabase
+
+Sigue la guía detallada en [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) o sigue estos pasos rápidos:
+
+#### 3.1 Crear proyecto en Supabase
+
+1. Ve a [https://supabase.com/dashboard](https://supabase.com/dashboard)
+2. Crea un nuevo proyecto
+3. Ve a **Settings** → **API**
+4. Copia la **Project URL** y la **anon/public key**
+
+#### 3.2 Configurar variables de entorno
+
+Crea un archivo `.env.local` en la raíz del proyecto:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key-aqui
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+**IMPORTANTE:** En Next.js, las variables expuestas al cliente deben tener el prefijo `NEXT_PUBLIC_`
+
+#### 3.3 Ejecutar el script SQL
+
+1. En el dashboard de Supabase, ve a **SQL Editor**
+2. Crea una nueva query
+3. Copia y pega el contenido de `scripts/001_create_tables.sql`
+4. Ejecuta el script (Run)
+
+Esto creará:
+- Tablas: `profiles`, `surveys`, `questions`, `responses`, `answers`
+- Políticas de seguridad (Row Level Security)
+- Trigger para crear perfiles automáticamente
+- Índices para mejor rendimiento
+
+### 4. Ejecutar en desarrollo
+
 ```bash
 npm run dev
 ```
-El servidor estará disponible en: http://localhost:3000
 
-### Compilar para Producción
+La aplicación estará disponible en [http://localhost:3000](http://localhost:3000)
+
+### 5. Compilar para producción
+
 ```bash
 npm run build
-```
-Los archivos compilados estarán en la carpeta `dist/`
-
-### Vista Previa de Producción
-```bash
-npm run preview
+npm start
 ```
 
-## Configuración de Supabase
+## Uso
 
-### 1. Obtén tus credenciales de Supabase
+### 1. Registro e Inicio de Sesión
 
-1. Ve a tu proyecto en [Supabase Dashboard](https://supabase.com/dashboard)
-2. Navega a **Settings** → **API**
-3. Encontrarás dos valores importantes:
-   - **Project URL** (ejemplo: `https://abcdefgh.supabase.co`)
-   - **anon/public key** (una clave larga)
+1. Ve a `/registro` para crear una cuenta
+2. Confirma tu email (si está habilitado en Supabase)
+3. Inicia sesión en `/login`
 
-### 2. Configura las variables de entorno
+### 2. Crear una Encuesta
 
-Ya existe un archivo `.env` en la raíz del proyecto. Ábrelo y reemplaza los valores:
+1. Ve al dashboard
+2. Haz clic en "Nueva Encuesta"
+3. Completa el título y descripción
+4. Agrega preguntas (texto, opción múltiple, calificación, sí/no)
+5. Guarda la encuesta
 
-```env
-VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
-VITE_SUPABASE_ANON_KEY=tu_clave_anonima_aqui
-```
+### 3. Compartir Encuesta
 
-### 3. Configura la base de datos
+1. En la lista de encuestas, haz clic en "Ver Detalles"
+2. Verás el código QR generado automáticamente
+3. Comparte el QR o la URL directa
 
-Ejecuta el script SQL en tu proyecto de Supabase (en el **SQL Editor**):
+### 4. Ver Resultados
 
-```bash
-# El archivo está en: scripts/001_create_tables.sql
-```
-
-Este script creará las tablas necesarias:
-- `surveys` - Encuestas
-- `questions` - Preguntas de las encuestas
-- `responses` - Respuestas de los usuarios
-
-### 4. Configura las políticas de seguridad (RLS)
-
-Supabase usa Row Level Security (RLS). Asegúrate de configurar las políticas en:
-**Authentication** → **Policies** para cada tabla.
+1. Desde el dashboard, haz clic en "Ver Resultados"
+2. Visualiza gráficos interactivos de las respuestas
+3. Exporta los datos a CSV si lo necesitas
 
 ## Scripts Disponibles
 
 - `npm run dev` - Inicia el servidor de desarrollo
 - `npm run build` - Compila el proyecto para producción
-- `npm run preview` - Previsualiza la build de producción
-- `npm run lint` - Ejecuta el linter
+- `npm start` - Inicia el servidor de producción
+- `npm run lint` - Ejecuta el linter de ESLint
 
-## Características
+## Configuración de Supabase
 
-- ✅ Autenticación de usuarios (registro/login)
-- ✅ Creación de encuestas personalizadas
-- ✅ Generación de códigos QR
-- ✅ Múltiples tipos de preguntas (texto, opción múltiple, calificación, sí/no)
-- ✅ Visualización de resultados con gráficos
-- ✅ Exportación de datos
-- ✅ Diseño responsive
+### Base de Datos
 
-## Notas Importantes
+El schema incluye:
 
-### Diferencias con Next.js
+**profiles**
+- Perfil de usuario (id, email, nombre)
 
-1. **Sin Server-Side Rendering (SSR)**: Ahora es una Single Page Application (SPA)
-2. **Navegación**: Se usa `react-router-dom` en lugar de Next.js Router
-3. **Sin API Routes**: Todas las llamadas a la base de datos se hacen directamente desde el cliente a Supabase
-4. **Carga inicial**: Puede ser más rápida en desarrollo pero requiere configuración adicional para SEO
+**surveys**
+- Encuestas (id, user_id, titulo, descripcion, activa)
 
-### Páginas No Migradas
+**questions**
+- Preguntas (id, survey_id, pregunta, tipo, opciones, orden)
 
-Las siguientes páginas avanzadas aún no han sido migradas (estaban en la carpeta `app/`):
-- `/encuesta/[id]` - Vista pública de encuesta
-- `/dashboard/encuestas/nueva` - Crear nueva encuesta
-- `/dashboard/encuestas/[id]` - Editar encuesta
-- `/dashboard/encuestas/[id]/resultados` - Ver resultados
+**responses**
+- Respuestas generales (id, survey_id, respondente_nombre, respondente_email)
 
-Estas se pueden agregar siguiendo el mismo patrón de las páginas ya migradas.
+**answers**
+- Respuestas específicas (id, response_id, question_id, respuesta)
 
-## Próximos Pasos
+### Row Level Security (RLS)
 
-Para completar el proyecto, considera:
+El sistema implementa políticas de seguridad:
+- Los usuarios solo ven sus propias encuestas
+- Cualquiera puede responder encuestas activas (anónimamente)
+- Los dueños ven todas las respuestas de sus encuestas
+- Los perfiles son privados
 
-1. Migrar las páginas faltantes a `src/pages/`
-2. Configurar variables de entorno para Supabase
-3. Agregar rutas protegidas para el dashboard
-4. Implementar manejo de errores global
-5. Agregar tests unitarios
-6. Configurar CI/CD para deployment
+## Deployment
 
-## Soporte
+### Vercel (Recomendado)
 
-Si encuentras algún problema, verifica:
-1. Que todas las dependencias estén instaladas
-2. Que las variables de entorno de Supabase estén configuradas
-3. Que el puerto 3000 esté disponible
+1. Sube el proyecto a GitHub
+2. Importa el repositorio en [Vercel](https://vercel.com)
+3. Configura las variables de entorno:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `NEXT_PUBLIC_SITE_URL` (tu URL de Vercel)
+4. Deploy automático
+
+### Otros Servicios
+
+El proyecto es compatible con cualquier servicio que soporte Next.js:
+- Netlify
+- Railway
+- Render
+- AWS Amplify
+
+## Solución de Problemas
+
+### Error: "Invalid API key"
+- Verifica que las variables de entorno tengan el prefijo `NEXT_PUBLIC_`
+- Asegúrate de usar la **anon/public key** (no la service_role)
+- Reinicia el servidor después de cambiar `.env.local`
+
+### Error: "relation does not exist"
+- Las tablas no se crearon correctamente
+- Ejecuta nuevamente el script SQL en Supabase
+
+### No puedo crear encuestas
+- Verifica que las políticas RLS estén activas
+- Revisa la consola del navegador para errores
+- Asegúrate de estar autenticado
+
+Para más detalles, consulta:
+- [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) - Guía completa de Supabase
+- [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) - Solución de problemas comunes
+
+## Documentación Adicional
+
+- [COMO_USAR.md](./COMO_USAR.md) - Guía de uso
+- [INSTRUCCIONES_SETUP.md](./INSTRUCCIONES_SETUP.md) - Setup detallado
+- [SETUP_RAPIDO.md](./SETUP_RAPIDO.md) - Setup rápido
+
+## Licencia
+
+[Especifica tu licencia aquí]
 
 ---
-Generado con Claude Code
+
+Desarrollado con Next.js 15 y Supabase

@@ -3,9 +3,9 @@
 ## Configuración completada ✓
 
 Los siguientes archivos ya están configurados:
-- `vercel.json`: Configuración de build para Vite + React
-- `.vercelignore`: Optimización del deployment
+- Next.js configuración (next.config.mjs)
 - `.gitignore`: Protección de archivos sensibles
+- Variables de entorno para Next.js
 
 ## Pasos para hacer el deploy
 
@@ -30,11 +30,11 @@ git push origin main
 
 ### 3. Configurar el proyecto en Vercel
 
-Vercel detectará automáticamente que es un proyecto Vite. Verifica que la configuración sea:
+Vercel detectará automáticamente que es un proyecto Next.js. Verifica que la configuración sea:
 
-- **Framework Preset**: Vite
+- **Framework Preset**: Next.js
 - **Build Command**: `npm run build`
-- **Output Directory**: `dist`
+- **Output Directory**: (automático para Next.js)
 - **Install Command**: `npm install`
 
 ### 4. Configurar Variables de Entorno
@@ -45,9 +45,9 @@ Vercel detectará automáticamente que es un proyecto Vite. Verifica que la conf
 2. Agrega las siguientes variables:
 
 ```
-VITE_SUPABASE_URL=https://dsvnmhgotthyzlpytxcy.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzdm5taGdvdHRoeXpscHl0eGN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwNjE0MzEsImV4cCI6MjA3ODYzNzQzMX0.YcEe2KHTF4XW3riWW7kD-RqQQ4L5KhWqBV8P-PiBhR4
-VITE_SITE_URL=https://tu-proyecto.vercel.app
+NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key-aqui
+NEXT_PUBLIC_SITE_URL=https://tu-proyecto.vercel.app
 ```
 
 **IMPORTANTE**: Reemplaza `https://tu-proyecto.vercel.app` con tu URL real de Vercel
@@ -144,17 +144,17 @@ Para agregar un dominio personalizado:
 
 ### Variables de entorno no funcionan
 
-- Confirma que las variables empiecen con `VITE_`
+- Confirma que las variables empiecen con `NEXT_PUBLIC_` para ser accesibles en el cliente
 - Verifica que estén configuradas en Vercel
 - Haz un redeploy después de agregar variables
 
 ### Rutas no funcionan (404)
 
-- Ya está configurado en `vercel.json` con rewrites
-- Si persiste, verifica que uses React Router correctamente
+- Next.js maneja las rutas automáticamente con el App Router
+- Si persiste, verifica que la estructura de carpetas en `app/` sea correcta
 
 ## Soporte
 
 - [Documentación de Vercel](https://vercel.com/docs)
-- [Guía de Vite en Vercel](https://vercel.com/docs/frameworks/vite)
+- [Guía de Next.js en Vercel](https://vercel.com/docs/frameworks/nextjs)
 - [Dashboard de Vercel](https://vercel.com/dashboard)

@@ -20,12 +20,15 @@ Una vez creado el proyecto:
    - **Project URL**: `https://xxxxxxxxxxxxx.supabase.co`
    - **anon public key**: Una clave larga que empieza con `eyJ...`
 
-3. Copia estos valores y pégalos en el archivo `.env` en la raíz del proyecto:
+3. Copia estos valores y pégalos en el archivo `.env.local` en la raíz del proyecto:
 
 ```env
-VITE_SUPABASE_URL=https://xxxxxxxxxxxxx.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxxxxxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
+
+**IMPORTANTE:** Para Next.js, las variables deben tener el prefijo `NEXT_PUBLIC_` para ser accesibles en el cliente.
 
 ## Paso 3: Configurar la base de datos
 
@@ -142,7 +145,8 @@ El script configura automáticamente políticas de seguridad:
 ### Error: "Invalid API key"
 - Verifica que copiaste correctamente las credenciales
 - Asegúrate de estar usando la **anon/public key** (no la service_role)
-- Reinicia el servidor de desarrollo después de cambiar el `.env`
+- Reinicia el servidor de desarrollo después de cambiar el `.env.local`
+- Verifica que las variables tengan el prefijo `NEXT_PUBLIC_`
 
 ### Error: "relation does not exist"
 - Las tablas no se crearon correctamente

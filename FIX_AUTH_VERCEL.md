@@ -33,7 +33,7 @@ Te registraste desde Vercel pero el email de confirmación tiene un link a `loca
 1. Ve a tu proyecto en [Vercel Dashboard](https://vercel.com/dashboard)
 2. Ve a `Settings` → `Environment Variables`
 3. Agrega una nueva variable:
-   - **Name**: `VITE_SITE_URL`
+   - **Name**: `NEXT_PUBLIC_SITE_URL`
    - **Value**: `https://tu-proyecto.vercel.app` (tu URL de Vercel)
    - **Environment**: Selecciona Production, Preview, y Development
 4. Click en "Save"
@@ -94,9 +94,9 @@ Para asegurarte de que todo está correcto:
 - [ ] Email provider está configurado (o usando el default de Supabase)
 
 ### En Vercel:
-- [ ] Variable `VITE_SUPABASE_URL` configurada
-- [ ] Variable `VITE_SUPABASE_ANON_KEY` configurada
-- [ ] Variable `VITE_SITE_URL` configurada (NUEVA)
+- [ ] Variable `NEXT_PUBLIC_SUPABASE_URL` configurada
+- [ ] Variable `NEXT_PUBLIC_SUPABASE_ANON_KEY` configurada
+- [ ] Variable `NEXT_PUBLIC_SITE_URL` configurada (NUEVA)
 - [ ] Deployment exitoso sin errores
 
 ### En el Código:
@@ -106,7 +106,7 @@ Para asegurarte de que todo está correcto:
 ## Problemas Comunes
 
 ### El email sigue apuntando a localhost
-- Asegúrate de que agregaste `VITE_SITE_URL` en Vercel
+- Asegúrate de que agregaste `NEXT_PUBLIC_SITE_URL` en Vercel
 - Verifica que el redeploy se completó exitosamente
 - Limpia el caché del navegador y vuelve a registrarte
 
@@ -122,26 +122,26 @@ Para asegurarte de que todo está correcto:
 ### Para desarrollo local
 No necesitas hacer nada extra. El código usa:
 ```javascript
-const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
 ```
 
 Esto significa:
-- En producción (Vercel): usa `VITE_SITE_URL` (tu URL de Vercel)
+- En producción (Vercel): usa `NEXT_PUBLIC_SITE_URL` (tu URL de Vercel)
 - En desarrollo (localhost): usa `window.location.origin` (http://localhost:3000)
 
 ## Resumen de Archivos Modificados
 
-- `.env.example`: Agregada variable `VITE_SITE_URL`
-- `src/pages/Registro.tsx`: Actualizado para usar `VITE_SITE_URL`
+- `.env.example`: Agregada variable `NEXT_PUBLIC_SITE_URL`
+- `app/registro/page.tsx`: Actualizado para usar `NEXT_PUBLIC_SITE_URL`
 - `VERCEL_DEPLOY.md`: Actualizada documentación con configuración de URLs
 
 ## Siguiente Paso
 
-Después de hacer estos cambios, haz las pruebas y si todo funciona correctamente, también deberías actualizar tu archivo `.env` local:
+Después de hacer estos cambios, haz las pruebas y si todo funciona correctamente, también deberías actualizar tu archivo `.env.local`:
 
 ```bash
-# Agrega esta línea a tu .env local
-echo "VITE_SITE_URL=http://localhost:3000" >> .env
+# Agrega esta línea a tu .env.local
+echo "NEXT_PUBLIC_SITE_URL=http://localhost:3000" >> .env.local
 ```
 
 Esto asegura que en desarrollo local también funcione correctamente.

@@ -57,9 +57,9 @@ Por defecto, Supabase requiere que los usuarios confirmen su email antes de que 
 1. Ve a tu proyecto en Vercel Dashboard
 2. Ve a `Settings` → `Environment Variables`
 3. Confirma que existan:
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
-4. Los valores deben coincidir con los de tu `.env` local
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+4. Los valores deben coincidir con los de tu `.env.local`
 
 **Si faltan o están incorrectas:**
 1. Agrégalas/corrígelas en Vercel
@@ -151,13 +151,15 @@ Para producción, debes configurar correctamente el envío de emails:
 
 **Ver errores en el registro local:**
 ```javascript
-// En Registro.tsx, línea 43-53, el error ya está siendo capturado
+// En app/registro/page.tsx, el error ya está siendo capturado
 // Revisa la consola del navegador para ver el mensaje de error exacto
 ```
 
 **Verificar si Supabase está conectado:**
 ```javascript
 // Abre la consola del navegador en tu sitio y ejecuta:
+import { createClient } from '@/lib/supabase/client';
+const supabase = createClient();
 const { data: { session } } = await supabase.auth.getSession();
 console.log(session);
 ```
