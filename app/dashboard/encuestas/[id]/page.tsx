@@ -49,11 +49,8 @@ export default async function SurveyDetailPage({ params }: { params: Promise<{ i
     .select("*", { count: "exact", head: true })
     .eq("survey_id", id);
 
-  const baseUrl = typeof window !== 'undefined' 
-    ? window.location.origin 
-    : process.env.NEXT_PUBLIC_SUPABASE_URL 
-      ? `https://${new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname.replace('.supabase.co', '')}.vercel.app`
-      : 'http://localhost:3000';
+  // Get the base URL from environment or use localhost as fallback
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   const surveyUrl = `${baseUrl}/encuesta/${id}`;
 
   return (
