@@ -6,6 +6,7 @@ import { ArrowLeft, QrCode, Eye, BarChart3 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { QRCodeDisplay } from "@/components/qr-code-display";
+import { CopyButton } from "@/components/copy-button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { notFound } from 'next/navigation';
@@ -147,12 +148,7 @@ export default async function SurveyDetailPage({ params }: { params: Promise<{ i
                   <Label className="text-sm font-medium mb-2 block">URL de la Encuesta</Label>
                   <div className="flex gap-2">
                     <Input value={surveyUrl} readOnly className="text-sm" />
-                    <Button
-                      variant="outline"
-                      onClick={() => navigator.clipboard.writeText(surveyUrl)}
-                    >
-                      Copiar
-                    </Button>
+                    <CopyButton text={surveyUrl} />
                   </div>
                 </div>
               </CardContent>
