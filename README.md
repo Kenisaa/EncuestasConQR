@@ -1,5 +1,7 @@
 # Sistema de Encuestas QR
 
+![Preview](screen.png)
+
 Sistema de encuestas con códigos QR construido con **Next.js 15** (App Router) y Supabase.
 
 ## Características
